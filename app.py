@@ -19,7 +19,7 @@ def get_response_from_ai_agent(llm_id, query, allow_search, system_prompt, provi
     if provider != "Groq":
         raise ValueError("Currently only 'Groq' provider is supported.")
     
-    llm = ChatGroq(model=llm_id)
+    llm = ChatGroq(model=llm_id, api_key=GROQ_API_KEY)
     search_tool = TavilySearchResults(max_results=2)
 
     agent = create_react_agent(
@@ -111,6 +111,7 @@ footer = """
 </div>
 """
 st.markdown(footer, unsafe_allow_html=True)
+
 
 
 
