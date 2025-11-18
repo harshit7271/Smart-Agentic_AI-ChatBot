@@ -3,7 +3,7 @@ import requests
 
 st.title("Personal AI Agent Chatbot")
 
-API_URL = "http://localhost:8000/chat"
+API_URL = "https://smart-agentic-ai-chatbot.onrender.com/"
 
 # Sidebar 
 model_name = st.sidebar.text_input("Model from which you getting information", "llama-3.3-70b-versatile")
@@ -94,3 +94,4 @@ footer = """
 </div>
 """
 st.markdown(footer, unsafe_allow_html=True)
+
