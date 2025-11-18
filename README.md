@@ -4,7 +4,7 @@ This repository contains a Streamlit-based AI chatbot application powered by Lan
 
 ## Demo
 Check out the live demo here: [Personal AI Agent Chatbot 🚀
-](https://smart-agenticai-chatbot-odt34hobsn2z8gwhxnhmu.streamlit.app)
+](https://smart-agenticai-chatbot-9odt34hobsn2z8gwhxnhmu.streamlit.app/)
 
 ---
 
@@ -12,13 +12,11 @@ Check out the live demo here: [Personal AI Agent Chatbot 🚀
 
 - Conversational AI chatbot with dynamic LLM from Groq (Llama 3.3 70B versatile model by default)
 - Integrated smart search capability using TavilySearchResults tool
-- Interactive chat UI built with Streamlit
+- Interactive chat UI built with Streamlit and FastAPI for scaling
 - Supports customizable system prompts and search toggling
 - Secure API key management using environment variables
 
 ---
-
-## Getting Started
 
 ### Prerequisites
 
@@ -28,6 +26,9 @@ Check out the live demo here: [Personal AI Agent Chatbot 🚀
 
 ### Installation
 
-1. Clone the repo:
+1. Clone the repo:  ```https://github.com/harshit7271/Smart-Agentic_AI-ChatBot.git```
+2. Create and activate a virtual environment:  `python -m venv venv`
+`venv\Scripts\activate` # on windows
+
 
  
