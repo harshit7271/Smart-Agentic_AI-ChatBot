@@ -1,32 +1,22 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from typing import List
-from dotenv import load_dotenv
-import os
-
-# Load environment variables from .env file
-load_dotenv()
-
-# Import your AI components
 from langchain_groq import ChatGroq
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langgraph.prebuilt import create_react_agent
 from langchain_core.messages.ai import AIMessage
 
-# Load API keys
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-TAVILY_API_KEY = os.getenv("TAVILY_API_KEY")
+# Initialize your FastAPI app
 
-# Allowed model names for validation
-ALLOWED_MODEL_NAMES = ["llama-3.3-70b-versatile", "llama3-70b-8192"]
-
-# Define Pydantic model for request validation
+# Define your request data model with Pydantic
 class RequestState(BaseModel):
     model_name: str
     model_provider: str
-    system_prompt: str
-    messages: List[str]
     allow_search: bool
+    system_prompt: str
+    messages: list[str]
+
+# Allowed model names
+ALLOWED_MODEL_NAMES = ["llama-3.3-70b-versatile"]
 
 app = FastAPI(title="LangGraph AI Agent")
 
@@ -35,6 +25,7 @@ def root():
     return {"message": "Welcome to AI agent ChatBot backend"}
 
 
+# Define the chat endpoint
 @app.post("/chat")
 def chat_endpoint(request: RequestState):
     """
@@ -75,4 +66,5 @@ def chat_endpoint(request: RequestState):
 
     # Return the last AI message as response
     return {"reply": ai_messages[-1]}
+
 
