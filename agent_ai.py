@@ -21,7 +21,7 @@ system_prompt = "Act as an AI chatbot who is smart and friendly"
 def get_response_from_ai_agent(llm_id, query, allow_search, system_prompt, provider="Groq"):
     if provider != "Groq":
         raise ValueError("Currently only 'Groq' provider is supported.")
-    # llm = ChatGroq(model=llm_id, api_key=GROQ_API_KEY)
+    llm = ChatGroq(model=llm_id, api_key=GROQ_API_KEY)
     agent = create_react_agent(
         model=groq_llm,
         tools=[search_tool] if allow_search else [],
@@ -42,6 +42,7 @@ if __name__ == "__main__":
     test_query = "Tell me about the trends in crypto markets"
     reply = get_response_from_ai_agent("llama-3.3-70b-versatile", test_query, allow_search=True, system_prompt=system_prompt)
     print(reply)
+
 
 
 
