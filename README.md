@@ -1,6 +1,6 @@
 # Smart-Agentic_AI-ChatBot
 
-This repository contains a Streamlit-based AI chatbot application powered by LangChain's Groq integration and Tavily search tools.
+This repository contains a Streamlit-based AI chatbot application powered by LangChain's Groq integration, Tavily search tools and FastAPI as backend for better scaling.
 
 ## Demo
 Check out the live demo here: [Personal AI Agent Chatbot 🚀
