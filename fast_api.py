@@ -41,7 +41,8 @@ def chat_endpoint(request: RequestState):
         raise HTTPException(status_code=400, detail="Only 'Groq' model provider is supported currently.")
 
     # Initialize the LLM with the requested model name and API key
-    llm = ChatGroq(model=request.model_name)
+    GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+    llm = ChatGroq(model=request.model_name, , api_key=GROQ_API_KEY)
 
     # Initialize the search tool if allowed
     tools = [TavilySearchResults(max_results=2)] if request.allow_search else []
@@ -66,5 +67,6 @@ def chat_endpoint(request: RequestState):
 
     # Return the last AI message as response
     return {"reply": ai_messages[-1]}
+
 
 
