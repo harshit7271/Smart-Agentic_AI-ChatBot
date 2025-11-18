@@ -1,0 +1,13 @@
+python-dotenv
+langchain
+langchain-groq
+langchain-community
+langchain-core
+langgraph
+tavily-python
+fastapi
+uvicorn
+requests
+streamlit
+st-social-media-links
+pydantic
