@@ -1,68 +1,87 @@
 import streamlit as st
-import requests
+from dotenv import load_dotenv
+import os
+
+from langchain_groq import ChatGroq
+from langchain_community.tools.tavily_search import TavilySearchResults
+from langgraph.prebuilt import create_react_agent
+from langchain_core.messages.ai import AIMessage
+
+# Load environment variable4
+load_dotenv()
+
+# Load API keys
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+TAVILY_API_KEY = os.getenv("TAVILY_API_KEY")
+
+# Initialize LLM and Search Tool
+def get_response_from_ai_agent(llm_id, query, allow_search, system_prompt, provider="Groq"):
+    if provider != "Groq":
+        raise ValueError("Currently only 'Groq' provider is supported.")
+    
+    llm = ChatGroq(model=llm_id)
+    search_tool = TavilySearchResults(max_results=2)
+
+    agent = create_react_agent(
+        model=llm,
+        tools=[search_tool] if allow_search else [],
+        prompt=system_prompt
+    )
+
+    response = agent.invoke({"messages": [{"role": "user", "content": query}]})
+    messages = response.get("messages") or []
+    
+    ai_messages = [msg.content for msg in messages if isinstance(msg, AIMessage)]
+    if not ai_messages:
+        raise RuntimeError("No response from AI agent")
+
+    return ai_messages[-1]
+
 
 st.title("Personal AI Agent Chatbot")
 
-API_URL = "https://smart-agentic-ai-chatbot-1.onrender.com/chat"
-
-# Sidebar 
+# Sidebar inputs
 model_name = st.sidebar.text_input("Model from which you getting information", "llama-3.3-70b-versatile")
 model_provider = st.sidebar.text_input("Model Provider", "Groq")
-
 system_prompt = st.sidebar.text_area(
     "System Prompt",
     value="Act as an AI chatbot who is smart and friendly"
 )
-
 allow_search = st.sidebar.checkbox("Allow Search", True)
 
-# Text input
-user_message = st.text_input("Enter your message or querries")
+# Text input for user
+user_message = st.text_input("Enter your message or queries")
 
-# Maintain chat history in session state
+# Session state to hold chat history
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# send request to FastAPI backend by clicking on send button
 if st.button("Send"):
     if user_message.strip() == "":
         st.warning("Please enter a message.")
     else:
-        # Append user message to session state
         st.session_state.messages.append(user_message)
-        
-        # JSON payload for FastAPI
-        payload = {
-            "model_name": model_name,
-            "model_provider": model_provider,
-            "system_prompt": system_prompt,
-            "messages": st.session_state.messages,
-            "allow_search": allow_search
-        }
-        
         try:
-            response = requests.post(API_URL, json=payload)
-            response.raise_for_status()
-            data = response.json()
-            ai_reply = data.get("reply", "(No response)")
-            # Append AI reply to chat history
-            st.session_state.messages.append(ai_reply)
+            reply = get_response_from_ai_agent(
+                llm_id=model_name,
+                query=user_message,
+                allow_search=allow_search,
+                system_prompt=system_prompt,
+                provider=model_provider
+            )
+            st.session_state.messages.append(reply)
         except Exception as e:
             st.error(f"Error: {e}")
 
-# Display chat history as alternating messages
+# Display chat history
 for i, msg in enumerate(st.session_state.messages):
     if i % 2 == 0:
         st.markdown(f"**You:** {msg}")
     else:
         st.markdown(f"**AI:** {msg}")
 
-
-# adding my details 
-
-st.markdown("---")
+# social link and my details
 from st_social_media_links import SocialMediaIcons
-# Social media links list
 social_media_links = [
     "https://github.com/harshit7271",
     "https://www.linkedin.com/in/harshit-singh-40b390286/",
@@ -70,8 +89,6 @@ social_media_links = [
 ]
 social_media_icons = SocialMediaIcons(social_media_links)
 social_media_icons.render()
-
-
 
 footer = """
 <style>
@@ -94,6 +111,7 @@ footer = """
 </div>
 """
 st.markdown(footer, unsafe_allow_html=True)
+
 
 
 
