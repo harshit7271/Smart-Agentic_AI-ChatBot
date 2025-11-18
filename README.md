@@ -1,2 +1,33 @@
 # Smart-Agentic_AI-ChatBot
-Created a smart ChatBot using LangGraph, LnagChain and GROQ 
+
+This repository contains a Streamlit-based AI chatbot application powered by LangChain's Groq integration and Tavily search tools.
+
+## Demo
+Check out the live demo here: [Personal AI Agent Chatbot 🚀
+](https://smart-agenticai-chatbot-odt34hobsn2z8gwhxnhmu.streamlit.app)
+
+---
+
+## Features
+
+- Conversational AI chatbot with dynamic LLM from Groq (Llama 3.3 70B versatile model by default)
+- Integrated smart search capability using TavilySearchResults tool
+- Interactive chat UI built with Streamlit
+- Supports customizable system prompts and search toggling
+- Secure API key management using environment variables
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Python 3.8+
+- Groq API key (sign up at Groq and get your API key)
+- (Optional) Tavily API key for search tool usage
+
+### Installation
+
+1. Clone the repo:
+
+ 
