@@ -13,7 +13,7 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 TAVILY_API_KEY = os.getenv("TAVILY_API_KEY")
 
 # Initialize LLM and Search Tool
-groq_llm = ChatGroq(model="llama-3.3-70b-versatile")
+# groq_llm = ChatGroq(model="llama-3.3-70b-versatile")
 search_tool = TavilySearchResults(max_results=2)
 
 system_prompt = "Act as an AI chatbot who is smart and friendly"
@@ -42,6 +42,7 @@ if __name__ == "__main__":
     test_query = "Tell me about the trends in crypto markets"
     reply = get_response_from_ai_agent("llama-3.3-70b-versatile", test_query, allow_search=True, system_prompt=system_prompt)
     print(reply)
+
 
 
 
